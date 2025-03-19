@@ -1,0 +1,98 @@
+- name: Install and configure Nginx
+  hosts: main
+  become: true
+
+  tasks:
+
+    - name: Ensure that variables are set
+      assert:
+        that:
+          - domain is defined
+          - serverport is defined
+          - email is defined
+        fail_msg: "Error: Missing required variables: domain, serverport, email"
+
+    - name: Install extended packages
+      ansible.builtin.dnf:
+        name:
+          - epel-release
+        state: latest
+
+    - name: Install certbot
+      ansible.builtin.dnf:
+        name:
+          - python3-certbot-nginx
+        state: latest
+
+    - name: Copy nginx-stable repository
+      ansible.builtin.copy:
+        dest: /etc/yum.repos.d/nginx.repo
+        content: |
+          [nginx-stable]
+          name=nginx stable repo
+          baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+          gpgcheck=1
+          enabled=1
+          gpgkey=https://nginx.org/keys/nginx_signing.key
+          module_hotfixes=true
+
+    - name: Install nginx
+      ansible.builtin.dnf:
+        name: nginx
+        state: latest
+
+    - name: Copy nginx configuration
+      ansible.builtin.copy:
+        dest: /etc/nginx/nginx.conf
+        content: |
+          worker_processes  1;
+
+          events {
+              worker_connections  1024;
+          }
+
+          http {
+              include       mime.types;
+              default_type  application/octet-stream;
+              sendfile        on;
+              keepalive_timeout  65;
+
+              server {
+                  listen       80;
+                  server_name  localhost {{ domain }};
+
+                  access_log  /var/log/nginx/access.log;
+                  error_log  /var/log/nginx/error.log;
+
+                  location / {
+                      proxy_set_header Host $host;
+                      proxy_set_header X-Real-IP $remote_addr;
+                      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                      proxy_pass http://127.0.0.1:{{ serverport }}/;
+                  }
+              }
+          }
+
+    - name: Set httpd_can_network_connect flag on
+      ansible.posix.seboolean:
+        name: httpd_can_network_connect
+        state: true
+        persistent: true
+
+    - name: Configure certbot certificate
+      ansible.builtin.script:
+        cmd: "certbot --nginx -d {{ domain }} --agree-tos --email {{ email }} --redirect --non-interactive"
+
+    - name: Set up certbot renew cron task
+      ansible.builtin.copy:
+        dest: /etc/cron.d/certbot-renew
+        content: |
+          SHELL=/bin/sh
+          PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+          0 */12 * * * root certbot -q renew --nginx
+
+    - name: Start and enable nginx
+      ansible.builtin.systemd:
+        name: nginx
+        enabled: yes
+        state: started

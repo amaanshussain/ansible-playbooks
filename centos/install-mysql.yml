@@ -1,0 +1,33 @@
+- name: Install mysql
+  hosts: main
+  become: true
+
+  tasks:
+    - name: Update packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
+    - name: Install mysql repo
+      ansible.builtin.shell:
+        cmd: sudo dnf install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+    
+    - name: Import keys
+      ansible.builtin.shell:
+        cmd: sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
+
+    - name: Install mysql
+      ansible.builtin.dnf:
+        name: mysql-community-server
+        state: latest
+
+    - name: Start service mysqld
+      ansible.builtin.systemd_service:
+        name: mysqld
+        state: started
+        enabled: true
+    
+    - name: Save root password
+      ansible.builtin.shell:
+        cmd: "sudo grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}' > {{ ansible_user_dir }}/mysqlpassword"
+
