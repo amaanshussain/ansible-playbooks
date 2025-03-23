@@ -1,0 +1,48 @@
+- name: Create systemd service
+  hosts: main
+  become: true
+
+  tasks:
+
+    - name: Ensure that variables are set
+      assert:
+        that:
+          - usergroup is defined
+          - service is defined
+          - description is defined
+          - workingdirectory is defined
+          - command is defined
+        fail_msg: "Error: Missing required variables: usergroup, service, description, workingdirectory, command"
+
+    - name: Copy api service
+      ansible.builtin.copy:
+        dest: "/etc/systemd/system/{{ service }}.service"
+        mode: 0644
+        content: |
+            [Unit]
+            Description={{ description }}
+            After=network.target
+
+            [Service]
+            Type=simple
+            User={{ usergroup }}
+            Group={{ usergroup }}
+            WorkingDirectory={{ workingdirectory }}
+            ExecStart={{ command }}
+            Restart=on-failure
+            RestartSec=10
+            StandardOutput=journal
+            StandardError=journal
+
+            [Install]
+            WantedBy=multi-user.target
+
+    - name: Reload service daemon
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Start and enable service
+      ansible.builtin.systemd:
+        name: "{{ service }}"
+        enabled: true
+        state: started
