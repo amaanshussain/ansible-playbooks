@@ -14,3 +14,16 @@
 <br>
 
 `install-mysql.yml`
+
+<br>
+
+`create-systemd-service.yml`
+
+|  name |  description |
+|:-:|---|
+| usergroup | User/Group of the running user. |
+| service | Name of the service. |
+| description | Description of the service. |
+| workingdirectory | Working directory for the service. |
+| command | Command that will execute the service. |
+
