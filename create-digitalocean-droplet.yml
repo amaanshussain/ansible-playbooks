@@ -6,7 +6,7 @@
     public_key : "76:ae:9d:1b:49:fa:e3:9c:00:91:f9:9e:c9:0c:93:85"
   
   tasks: 
-      - name: Ensure that variables are set
+    - name: Ensure that variables are set
       assert:
         that:
           - droplet_name is defined
