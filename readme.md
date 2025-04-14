@@ -1,6 +1,17 @@
 # ansible-playbooks
 
 
+
+`create-digitalocean-droplet.yml`
+
+|  name |  description |
+|:-:|—|
+| token | Token for Digital Ocean. |
+| name | Name of the droplet. |
+| image | (Optional) Image of the droplet. |
+| size | (Optional) Size of the droplet. |
+
+
 ## CentOS
 
 `install-configure-nginx-server.yml`
