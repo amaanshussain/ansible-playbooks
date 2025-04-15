@@ -1,4 +1,4 @@
-# ansible-playbook create-digitalocean-droplet.yml -K -e token=$TOKEN -e name=$NAME -e image=$IMAGE -e size=$SIZE
+# ansible-playbook digitalocean-droplet-create.yml -K -e token=$TOKEN -e name=$NAME -e image=$IMAGE -e size=$SIZE
 
 - name: Create new droplet
   hosts: localhost
