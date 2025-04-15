@@ -11,14 +11,21 @@
           -  token is defined
           -  name is defined
         fail_msg: "Error: Missing required variables: token, name"
- 
+
+    - name: Fetch Droplet
+      community.digitalocean.digital_ocean_droplet_info:
+        api_token: "{{ token }}"
+        name: "{{ name }}"
+      register: droplet 
+
+    - name: Display Droplet
+      ansible.builtin.debug:
+        msg: "{{ droplet }}"
+
     - name: Delete Droplet
       community.digitalocean.digital_ocean_droplet:
         api_token: "{{ token }}"
         state: absent
         name: "{{ name }}"
+        id: "{{ droplet[0].id }}"
       register: my_droplet
-
-    - name: Display IP address
-      ansible.builtin.debug:
-        msg: "{{ my_droplet }}"
