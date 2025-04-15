@@ -1,0 +1,25 @@
+- name: Create user
+  hosts: main
+  become: true
+
+  tasks:
+
+    - name: Ensure that variables are set
+      assert:
+        that:
+          - user is defined
+          - pubkey is defined
+        fail_msg: "Error: Missing required variables: user"
+
+    - name: Create a user 
+      ansible.builtin.user:
+        name: "{{ user }}"
+        uid: "{{ uid }}"
+        create_home: yes
+        groups: wheel
+
+    - name: Set authorized key
+      ansible.posix.authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ pubkey }}"
