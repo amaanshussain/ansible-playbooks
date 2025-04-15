@@ -14,7 +14,7 @@
     - name: Create a user 
       ansible.builtin.user:
         name: "{{ user }}"
-        uid: "{{ uid }}"
+        uid: "{{ uid | default(null) }}"
         create_home: yes
         groups: wheel
 
