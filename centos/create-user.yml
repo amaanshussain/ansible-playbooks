@@ -16,6 +16,12 @@
         name: "{{ user }}"
         create_home: yes
         groups: wheel
+        
+    - name: Create ssh folder
+      ansible.builtin.file:
+        path: "/home/{{ user }}/.ssh"
+        mode: 0755
+        state: directory 
 
     - name: Set authorized key
       ansible.builtin.copy:
@@ -23,3 +29,4 @@
         group: "{{ user }}"
         dest: "/home/{{ user }}/.ssh/authorized_keys"
         content: "{{ pubkey }}"
+        mode: 0600
