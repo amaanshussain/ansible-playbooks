@@ -36,7 +36,7 @@
         mode: 0600
 
     - name: Clear root login
-      when: disableroot
+      when: disableroot is defined
       ansible.builtin.file:
         path: /root/.ssh/authorized_keys
         state: absent 
