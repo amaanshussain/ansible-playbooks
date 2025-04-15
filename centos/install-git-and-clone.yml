@@ -13,3 +13,20 @@
         name:
           - git
         state: latest
+
+    - name: Copy ssh key
+      ansible.builtin.copy:
+        src: "{{ deploykey }}"
+        dest: ~/.ssh/deploykey
+        mode: 0600
+    - name: Set config
+      ansible.builtin.blockinfile:
+        path: ~/.ssh/config
+        create: true
+        block: |
+          Host github.com
+            User git
+            IdentityFile ~/.ssh/deploykey
+         
+         
+        
