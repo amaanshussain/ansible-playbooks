@@ -19,6 +19,8 @@
         
     - name: Create ssh folder
       ansible.builtin.file:
+        owner: "{{ user }}"
+        group: "{{ user }}"
         path: "/home/{{ user }}/.ssh"
         mode: 0755
         state: directory 
