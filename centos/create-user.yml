@@ -8,8 +8,8 @@
       assert:
         that:
           - user is defined
-          - pubkey is defined
-        fail_msg: "Error: Missing required variables: user"
+          - keypath is defined
+        fail_msg: "Error: Missing required variables: user, keypath"
 
     - name: Create a user 
       ansible.builtin.user:
