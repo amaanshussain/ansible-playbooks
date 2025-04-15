@@ -1,4 +1,6 @@
-- name: Install git and clone
+# ansible-playbook -i hosts.yml -u $USER centos/install-git-and-clone.yml -K -e keypath=$DEPLOYKEY --private-key $SSHKEY
+
+- name: Install git
   hosts: main
 
   tasks:
