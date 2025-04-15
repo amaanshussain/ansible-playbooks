@@ -19,7 +19,7 @@
 
     - name: Set authorized key
       ansible.builtin.copy:
-        user: "{{ user }}"
+        owner: "{{ user }}"
         group: "{{ user }}"
         state: present
         dest: "/home/{{ user }}/.ssh/authorized_keys"
