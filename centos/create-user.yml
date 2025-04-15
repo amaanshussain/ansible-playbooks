@@ -1,3 +1,5 @@
+# ansible-playbook -i hosts.yml -u root centos/create-user.yml -e user=$USER -e keypath=$PUBKEYPATH
+
 - name: Create user
   hosts: main
   become: true
@@ -32,3 +34,9 @@
         dest: "/home/{{ user }}/.ssh/authorized_keys"
         content: "{{ lookup('file', keypath) }}"
         mode: 0600
+
+    - name: Clear root login
+      when: disableroot
+      ansible.builtin.file:
+        path: /root/.ssh/authorized_keys
+        state: absent 
