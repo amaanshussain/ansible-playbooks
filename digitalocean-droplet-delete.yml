@@ -27,5 +27,5 @@
         api_token: "{{ token }}"
         state: absent
         name: "{{ name }}"
-        id: "{{ droplet[0].id }}"
+        id: "{{ droplet.data[0].id }}"
       register: my_droplet
