@@ -16,7 +16,7 @@
 
     - name: Copy ssh key
       ansible.builtin.copy:
-        src: "{{ deploykey }}"
+        src: "{{ keypath }}"
         dest: ~/.ssh/deploykey
         mode: 0600
     - name: Set config
