@@ -18,10 +18,6 @@
         name: "{{ name }}"
       register: droplet 
 
-    - name: Display Droplet
-      ansible.builtin.debug:
-        msg: "{{ droplet }}"
-
     - name: Delete Droplet
       community.digitalocean.digital_ocean_droplet:
         api_token: "{{ token }}"
