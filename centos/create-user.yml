@@ -21,6 +21,5 @@
       ansible.builtin.copy:
         owner: "{{ user }}"
         group: "{{ user }}"
-        state: present
         dest: "/home/{{ user }}/.ssh/authorized_keys"
         content: "{{ pubkey }}"
