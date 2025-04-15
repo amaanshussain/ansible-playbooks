@@ -1,0 +1,24 @@
+# ansible-playbook digitalocean-droplet-delete.yml -K -e token=$TOKEN -e name=$NAME
+
+- name: Delete droplet
+  hosts: localhost
+  become: yes
+
+  tasks: 
+    - name: Ensure that variables are set
+      assert:
+        that:
+          -  token is defined
+          -  name is defined
+        fail_msg: "Error: Missing required variables: token, name"
+ 
+    - name: Delete Droplet
+      community.digitalocean.digital_ocean_droplet:
+        api_token: "{{ token }}"
+        state: absent
+        name: "{{ name }}"
+      register: my_droplet
+
+    - name: Display IP address
+      ansible.builtin.debug:
+        msg: "{{ my_droplet }}"
