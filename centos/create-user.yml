@@ -18,7 +18,9 @@
         groups: wheel
 
     - name: Set authorized key
-      ansible.posix.authorized_key:
+      ansible.builtin.copy:
         user: "{{ user }}"
+        group: "{{ user }}"
         state: present
-        key: "{{ pubkey }}"
+        dest: "/home/{{ user }}/.ssh/authorized_keys"
+        content: "{{ pubkey }}"
