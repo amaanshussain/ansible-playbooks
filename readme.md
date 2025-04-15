@@ -1,15 +1,23 @@
 # ansible-playbooks
 
 
-
-`create-digitalocean-droplet.yml`
+`digitalocean-droplet-create.yml`
 
 |  name |  description |
-|:-:|—|
+|:-:|---|
 | token | Token for Digital Ocean. |
 | name | Name of the droplet. |
 | image | (Optional) Image of the droplet. |
 | size | (Optional) Size of the droplet. |
+
+
+`digitalocean-droplet-delete.yml`
+
+|  name |  description |
+|:-:|---|
+| token | Token for Digital Ocean. |
+| name | Name of the droplet. |
+
 
 
 ## CentOS
