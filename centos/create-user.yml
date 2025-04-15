@@ -30,5 +30,5 @@
         owner: "{{ user }}"
         group: "{{ user }}"
         dest: "/home/{{ user }}/.ssh/authorized_keys"
-        content: "{{ pubkey }}"
+        content: "{{ lookup('file', keypath) }}"
         mode: 0600
