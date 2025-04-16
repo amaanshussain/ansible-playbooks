@@ -22,6 +22,29 @@
 
 ## CentOS
 
+<br>
+
+`install-mysql.yml`
+
+<br>
+
+`install-git.yml`
+
+|  name |  description |
+|:-:|---|
+| keypath | (Optional) Path of an SSH key for git authentication. |
+
+<br>
+
+`create-user.yml`
+
+|  name |  description |
+|:-:|---|
+| user | Name of the user. |
+| keypath | Path of a public SSH key for authentication. |
+
+<br>
+
 `install-configure-nginx-server.yml`
 
 |  name |  description |
@@ -32,15 +55,11 @@
 
 <br>
 
-`install-mysql.yml`
-
-<br>
-
 `create-systemd-service.yml`
 
 |  name |  description |
 |:-:|---|
-| usergroup | User/Group of the running user. |
+| user | User/Group of the running user. |
 | service | Name of the service. |
 | description | Description of the service. |
 | workingdirectory | Working directory for the service. |
