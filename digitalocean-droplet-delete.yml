@@ -1,8 +1,7 @@
-# ansible-playbook digitalocean-droplet-delete.yml -K -e token=$TOKEN -e name=$NAME
+# ansible-playbook digitalocean-droplet-delete.yml -e token=$TOKEN -e name=$NAME
 
 - name: Delete droplet
   hosts: localhost
-  become: yes
 
   tasks: 
     - name: Ensure that variables are set

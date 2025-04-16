@@ -1,3 +1,5 @@
+# ansible-playbook -i hosts.yml centos/create-systemd-service.yml -K -e user=$USER -e service=$SERVICE -e description=$DESC -e workingdirectory=$WORKDIR -e command=$CMD
+
 - name: Create systemd service
   hosts: main
   become: true
@@ -7,12 +9,12 @@
     - name: Ensure that variables are set
       assert:
         that:
-          - usergroup is defined
+          - user is defined
           - service is defined
           - description is defined
           - workingdirectory is defined
           - command is defined
-        fail_msg: "Error: Missing required variables: usergroup, service, description, workingdirectory, command"
+        fail_msg: "Error: Missing required variables: user, service, description, workingdirectory, command"
 
     - name: Copy api service
       ansible.builtin.copy:
@@ -25,8 +27,8 @@
 
             [Service]
             Type=simple
-            User={{ usergroup }}
-            Group={{ usergroup }}
+            User={{ user }}
+            Group={{ user }}
             WorkingDirectory={{ workingdirectory }}
             ExecStart={{ command }}
             Restart=on-failure

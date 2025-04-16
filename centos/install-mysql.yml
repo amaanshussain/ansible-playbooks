@@ -1,3 +1,5 @@
+# ansible-playbook -i hosts.yml centos/install-mysql.yml -K 
+
 - name: Install mysql
   hosts: main
   become: true
