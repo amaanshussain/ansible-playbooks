@@ -10,8 +10,9 @@
       assert:
         that:
           - user is defined
+          - passwd is defined
           - keypath is defined
-        fail_msg: "Error: Missing required variables: user, keypath"
+        fail_msg: "Error: Missing required variables: user, passwd, keypath"
 
     - name: Create a user 
       ansible.builtin.user:
@@ -34,6 +35,10 @@
         dest: "/home/{{ user }}/.ssh/authorized_keys"
         content: "{{ lookup('file', keypath) }}"
         mode: 0600
+
+    - name: Update user passwd
+      ansible.builtin.shell:
+        cmd: "echo {{ user }}:{{ passwd }} | chpasswd" 
 
     - name: Clear root login
       when: disableroot is defined
