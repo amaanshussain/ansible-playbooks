@@ -41,6 +41,7 @@
 |  name |  description |
 |:-:|---|
 | user | Name of the user. |
+| passwd | Password used for privileged access. |
 | keypath | Path of a public SSH key for authentication. |
 
 <br>

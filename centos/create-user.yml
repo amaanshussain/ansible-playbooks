@@ -1,4 +1,4 @@
-# ansible-playbook -i hosts.yml -u root centos/create-user.yml -e user=$USER -e keypath=$PUBKEYPATH -e disableroot=true
+# ansible-playbook -i hosts.yml -u root centos/create-user.yml -e user=$USER -e passwd=$PASSWD -e keypath=$PUBKEYPATH -e disableroot=true
 
 - name: Create user
   hosts: main
